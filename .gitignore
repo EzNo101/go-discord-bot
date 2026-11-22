@@ -1,0 +1,9 @@
+.env
+*.exe
+/go-discord-bot
+
+# macOS
+.DS_Store
+._*
+.AppleDouble
+.LSOverride
