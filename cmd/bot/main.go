@@ -8,16 +8,19 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/EzNo101/go-discord-bot/internal/handlers"
 	"github.com/disgoorg/disgo"
 	"github.com/disgoorg/disgo/bot"
 	"github.com/disgoorg/disgo/events"
 	"github.com/disgoorg/disgo/gateway"
+	"github.com/disgoorg/snowflake/v2"
 )
 
 func main() {
 	// Read the bot token from the DISCORD_TOKEN environment variable.
 	// Returns an empty string if the variable is not set.
 	token := os.Getenv("DISCORD_TOKEN")
+	guildID := snowflake.GetEnv("DISCORD_GUILD_ID")
 
 	// Without a token the bot cannot log in, so stop the program immediately.
 	if token == "" {
@@ -40,10 +43,15 @@ func main() {
 		bot.WithEventListenerFunc(func(e *events.Ready) {
 			fmt.Println("Bot is online as", e.User.Username)
 		}),
+		bot.WithEventListenerFunc(handlers.OnCommand),
 	)
 
 	// New can fail (for example, with a bad configuration), so check the error.
 	if err != nil {
+		panic(err)
+	}
+
+	if _, err = client.Rest.SetGuildCommands(client.ApplicationID, guildID, handlers.Commands); err != nil {
 		panic(err)
 	}
 
