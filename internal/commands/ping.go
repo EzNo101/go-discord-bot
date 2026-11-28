@@ -6,9 +6,9 @@ import (
 )
 
 var pingCommand = Command{
-	Name: "ping",	// for dispatch
+	Name: "ping", // for dispatch
 	Definition: discord.SlashCommandCreate{
-		Name:        "ping",	// for discord
+		Name:        "ping", // for discord
 		Description: "Replies with pong",
 	},
 	Run: func(e *events.ApplicationCommandInteractionCreate) error {

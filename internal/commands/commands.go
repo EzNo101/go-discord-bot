@@ -15,6 +15,7 @@ type Command struct {
 
 var All = []Command{
 	pingCommand,
+	sayCommand,
 }
 
 func Definitions() []discord.ApplicationCommandCreate {
